@@ -1,0 +1,29 @@
+# requirements.txt
+
+# LangChain core + agent framework
+langchain
+langchain-core
+langgraph
+
+# Mistral model integration
+langchain-mistralai
+
+# Tavily web search
+tavily-python
+
+# Web scraping
+beautifulsoup4
+requests
+
+# Backend server
+fastapi
+uvicorn
+
+# Environment variables
+python-dotenv
+
+# Optional: async HTTP
+httpx
+
+# Optional: dev/debugging
+rich
