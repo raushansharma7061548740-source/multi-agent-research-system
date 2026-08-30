@@ -200,48 +200,30 @@ body {
   margin-bottom: 24px;
 }
 
-/* Stage timeline */
+/* Loading state */
 
-.stages {
+.loading {
   display: flex;
-  flex-direction: column;
-}
-
-.stage {
-  display: flex;
-  gap: 16px;
-}
-
-.stage__rail {
-  display: flex;
-  flex-direction: column;
   align-items: center;
-  width: 12px;
-  flex-shrink: 0;
-  padding-top: 22px;
+  gap: 10px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--text-dim);
+  margin-bottom: 24px;
 }
 
-.dot {
-  width: 9px;
-  height: 9px;
+.loading__dot {
+  width: 8px;
+  height: 8px;
   border-radius: 50%;
-  background: var(--border);
-  flex-shrink: 0;
-}
-
-.dot--done {
-  background: var(--teal);
-  box-shadow: 0 0 0 3px rgba(95, 179, 171, 0.15);
-}
-
-.dot--running {
   background: var(--amber);
   box-shadow: 0 0 0 3px rgba(232, 163, 61, 0.18);
   animation: pulse 1.4s ease-in-out infinite;
+  flex-shrink: 0;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .dot--running {
+  .loading__dot {
     animation: none;
   }
 }
@@ -256,120 +238,48 @@ body {
   }
 }
 
-.rail-line {
-  width: 1px;
-  flex: 1;
-  margin-top: 4px;
-  background: var(--border-soft);
-}
+/* Output: scorecard + report */
 
-.rail-line--done {
-  background: var(--teal);
-  opacity: 0.35;
-}
-
-.stage__body {
-  flex: 1;
-  padding-bottom: 22px;
-}
-
-.stage__header {
-  width: 100%;
-  display: flex;
-  align-items: baseline;
-  gap: 12px;
-  background: none;
-  border: none;
-  padding: 0;
-  cursor: pointer;
-  text-align: left;
-  color: var(--text);
-  font-family: var(--font-mono);
-}
-
-.stage__header:disabled {
-  cursor: default;
-}
-
-.stage__header:focus-visible {
-  outline: 2px solid var(--amber);
-  outline-offset: 4px;
-  border-radius: 2px;
-}
-
-.stage__id {
-  font-size: 12px;
-  color: var(--text-faint);
-}
-
-.stage__name {
-  font-family: var(--font-display);
-  font-size: 17px;
-  font-weight: 500;
-  color: var(--text);
-}
-
-.stage__verb {
-  font-size: 12px;
-  color: var(--text-dim);
-  flex: 1;
-}
-
-.stage__toggle {
-  font-size: 11px;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--amber);
-  border: 1px solid var(--amber-dim);
-  border-radius: 3px;
-  padding: 3px 8px;
-}
-
-.stage__content {
-  margin-top: 14px;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  padding: 16px 18px;
-}
-
-.stage__text {
-  margin: 0;
-  white-space: pre-wrap;
-  word-wrap: break-word;
-  font-family: var(--font-mono);
-  font-size: 12.5px;
-  line-height: 1.65;
-  color: var(--text-dim);
-  max-height: 360px;
-  overflow-y: auto;
-}
-
-/* Critic card */
-
-.critique {
+.output {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 28px;
 }
 
-.critique__score {
+.scorecard {
+  display: flex;
+  gap: 28px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 24px;
+}
+
+.scorecard__score {
   font-family: var(--font-display);
   color: var(--amber);
   line-height: 1;
+  flex-shrink: 0;
 }
 
-.critique__score-num {
-  font-size: 40px;
+.scorecard__num {
+  font-size: 48px;
   font-weight: 600;
 }
 
-.critique__score-den {
-  font-size: 18px;
+.scorecard__den {
+  font-size: 20px;
   color: var(--text-faint);
 }
 
-.critique__block h4 {
+.scorecard__details {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  flex: 1;
+}
+
+.scorecard__block h4 {
   font-family: var(--font-mono);
   font-size: 11px;
   letter-spacing: 0.08em;
@@ -378,7 +288,7 @@ body {
   margin: 0 0 8px;
 }
 
-.critique__block ul {
+.scorecard__block ul {
   margin: 0;
   padding-left: 18px;
   color: var(--text-dim);
@@ -386,7 +296,7 @@ body {
   line-height: 1.7;
 }
 
-.critique__verdict {
+.scorecard__verdict {
   font-family: var(--font-display);
   font-style: italic;
   font-size: 15px;
@@ -394,6 +304,30 @@ body {
   border-left: 2px solid var(--amber-dim);
   padding-left: 12px;
   margin: 0;
+}
+
+.report {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 28px;
+}
+
+.report__heading {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--text);
+  margin: 0 0 18px;
+}
+
+.report__body {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  font-family: var(--font-body);
+  font-size: 14.5px;
+  line-height: 1.75;
+  color: var(--text);
 }
 
 .footer {
