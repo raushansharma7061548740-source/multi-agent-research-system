@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 
-const API_URL = "http://localhost:8000/research";
+const API_URL = "https://multi-agent-research-system-3wf6.onrender.com/research";
 
 const STAGES = [
   {
