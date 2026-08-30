@@ -345,13 +345,6 @@ body {
   overflow-y: auto;
 }
 
-.stage__text--full {
-  max-height: none;
-  overflow-y: visible;
-  color: var(--text);
-  font-size: 13px;
-}
-
 /* Critic card */
 
 .critique {

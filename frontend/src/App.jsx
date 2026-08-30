@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000/research";
+const API_URL = "http://localhost:8000/research";
 
 const STAGES = [
   {
@@ -70,14 +70,6 @@ function StageCard({ stage, state, content, isLast }) {
   const [open, setOpen] = useState(false);
   const critique = stage.key === "feedback" ? parseCritique(content) : null;
 
-  // Once a stage finishes and has content, auto-expand it so the
-  // report and critique are visible immediately without an extra click.
-  useEffect(() => {
-    if (state === "done" && content) {
-      setOpen(true);
-    }
-  }, [state, content]);
-
   return (
     <div className="stage">
       <div className="stage__rail">
@@ -135,15 +127,7 @@ function StageCard({ stage, state, content, isLast }) {
                 )}
               </div>
             ) : (
-              <pre
-                className={
-                  stage.key === "report"
-                    ? "stage__text stage__text--full"
-                    : "stage__text"
-                }
-              >
-                {content}
-              </pre>
+              <pre className="stage__text">{content}</pre>
             )}
           </div>
         )}
