@@ -16,7 +16,7 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "http://localhost:5173",
-        "https://multi-agent-research-system-dusky.vercel.app",
+        "https://multi-agent-research-system-black.vercel.app",
     ],
     allow_credentials=False,
     allow_methods=["*"],
