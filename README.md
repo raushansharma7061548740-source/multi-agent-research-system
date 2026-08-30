@@ -38,7 +38,7 @@ Web scraping	- requests + BeautifulSoup
 Backend	- FastAPI + Uvicorn
 Frontend	- React + Vite
 
-
+live demo - https://multi-agent-research-system-black.vercel.app/
 
 
 My role on this project
