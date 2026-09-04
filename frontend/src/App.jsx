@@ -3,44 +3,11 @@ import { useState } from "react";
 const API_URL = "https://multi-agent-research-system-3wf6.onrender.com/research";
 
 const LOADING_MESSAGES = [
+  "Working out what kind of question this is…",
   "Agents are researching…",
-  "Reading through sources…",
   "Drafting the report…",
   "Scoring the draft…",
 ];
-
-// Pulls "Score: X/10" plus the Strengths / Areas to Improve / verdict
-// sections out of the critic agent's plain-text output so we can render
-// it, instead of dumping raw text. Falls back gracefully if the shape
-// doesn't match exactly.
-function parseCritique(text) {
-  if (!text) return null;
-  const scoreMatch = text.match(/Score:\s*([\d.]+)\s*\/\s*10/i);
-  const verdictMatch = text.match(/One line verdict:\s*([\s\S]*)$/i);
-  const strengthsMatch = text.match(
-    /Strengths:\s*([\s\S]*?)(?:Areas to Improve:|$)/i
-  );
-  const areasMatch = text.match(
-    /Areas to Improve:\s*([\s\S]*?)(?:One line verdict:|$)/i
-  );
-
-  const toList = (block) =>
-    block
-      ? block
-          .split("\n")
-          .map((l) => l.replace(/^[-•]\s*/, "").trim())
-          .filter(Boolean)
-      : [];
-
-  if (!scoreMatch) return null;
-
-  return {
-    score: scoreMatch[1],
-    strengths: toList(strengthsMatch?.[1]),
-    areas: toList(areasMatch?.[1]),
-    verdict: verdictMatch?.[1]?.trim(),
-  };
-}
 
 export default function App() {
   const [topic, setTopic] = useState("");
@@ -86,7 +53,10 @@ export default function App() {
     }
   }
 
-  const critique = result ? parseCritique(result.feedback) : null;
+  // The backend only runs the critic on the RESEARCH path, not the
+  // SIMPLE path — so a null score means this was a direct answer.
+  const isResearch = result?.query_type === "RESEARCH";
+  const hasScore = isResearch && typeof result?.score === "number";
 
   return (
     <div className="page">
@@ -100,8 +70,9 @@ export default function App() {
           Get a written, scored report.
         </h1>
         <p className="subtitle">
-          Four agents work behind the scenes — search, read, write, and
-          critique — you just see the finished result.
+          Simple questions get a direct answer. Anything that needs real
+          research goes through search, reading, writing, and a
+          self-correcting critique loop.
         </p>
       </header>
 
@@ -132,49 +103,39 @@ export default function App() {
 
       {result && (
         <div className="output">
-          {critique && (
+          {isResearch && (
+            <div className="type-badge">Researched · {result.attempts} attempt{result.attempts === 1 ? "" : "s"}</div>
+          )}
+          {!isResearch && result.query_type === "SIMPLE" && (
+            <div className="type-badge type-badge--simple">Direct answer</div>
+          )}
+
+          {hasScore && (
             <div className="scorecard">
               <div className="scorecard__score">
-                <span className="scorecard__num">{critique.score}</span>
+                <span className="scorecard__num">{result.score}</span>
                 <span className="scorecard__den">/10</span>
               </div>
-              <div className="scorecard__details">
-                {critique.strengths.length > 0 && (
-                  <div className="scorecard__block">
-                    <h4>Strengths</h4>
-                    <ul>
-                      {critique.strengths.map((s, i) => (
-                        <li key={i}>{s}</li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
-                {critique.areas.length > 0 && (
-                  <div className="scorecard__block">
-                    <h4>Areas to improve</h4>
-                    <ul>
-                      {critique.areas.map((a, i) => (
-                        <li key={i}>{a}</li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
-                {critique.verdict && (
-                  <p className="scorecard__verdict">"{critique.verdict}"</p>
-                )}
-              </div>
+              {result.issue && result.issue.toLowerCase() !== "none" && (
+                <div className="scorecard__issue">
+                  <h4>Flagged issue</h4>
+                  <p>{result.issue}</p>
+                </div>
+              )}
             </div>
           )}
 
           <div className="report">
-            <h2 className="report__heading">Report</h2>
+            <h2 className="report__heading">
+              {isResearch ? "Report" : "Answer"}
+            </h2>
             <div className="report__body">{result.report}</div>
           </div>
         </div>
       )}
 
       <footer className="footer">
-        <span>FastAPI backend · LangGraph agents · Mistral</span>
+        <span>FastAPI backend · LangGraph agents · Groq · Sarvam</span>
       </footer>
     </div>
   );

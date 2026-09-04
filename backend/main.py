@@ -1,17 +1,17 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from pipeline import run_research_pipeline
+from graph import run_pipeline
 
 
 app = FastAPI(
     title="Multi-Agent Research System",
-    description="AI powered research pipeline",
-    version="1.0"
+    description="AI powered research pipeline with a self-correcting revision loop",
+    version="2.0"
 )
 
 
-# Allow React frontend to communicate with FastAPI
+# Allow deployed + local frontends to communicate with FastAPI
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -39,13 +39,21 @@ def research(data: dict):
             "error": "Research topic is required"
         }
 
-    result = run_research_pipeline(topic)
+    result = run_pipeline(topic)
+
+    query_type = result.get("query_type", "")
+    report = result.get("writer", "")
+    critic = result.get("critic", {"score": 0.0, "issue": ""})
+    attempts = result.get("attempts", 0)
 
     return {
         "success": True,
         "topic": topic,
-        "search_results": result.get("search_results", ""),
-        "scraped_content": result.get("scraped_content", ""),
-        "report": result.get("report", ""),
-        "feedback": result.get("feedback", "")
+        "query_type": query_type,
+        "report": report,
+        # score/issue only meaningful on the research path — the simple
+        # path never runs the critic node, so these stay at defaults.
+        "score": critic.get("score"),
+        "issue": critic.get("issue"),
+        "attempts": attempts,
     }

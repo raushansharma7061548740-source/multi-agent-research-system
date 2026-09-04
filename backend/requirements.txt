@@ -1,15 +1,17 @@
 # requirements.txt
 
 # LangChain core + agent framework
-langchain
 langchain-core
 langgraph
 
-# Mistral model integration
-langchain-mistralai
+# Groq (writer / direct-answer model)
+langchain-groq
+
+# Sarvam (classifier / critic model)
+langchain-sarvam
 
 # Tavily web search
-tavily-python
+langchain-tavily
 
 # Web scraping
 beautifulsoup4
@@ -21,9 +23,3 @@ uvicorn
 
 # Environment variables
 python-dotenv
-
-# Optional: async HTTP
-httpx
-
-# Optional: dev/debugging
-rich
