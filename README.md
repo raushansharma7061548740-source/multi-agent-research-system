@@ -1,5 +1,8 @@
 Multi-Agent Research System
 
+LIVE_DEMO = https://multi-agent-research-system-mabs61117-ai-enginner.vercel.app
+
+
 # graph.py — how it works
 
 This is the core file of the project. The FastAPI server and the frontend
