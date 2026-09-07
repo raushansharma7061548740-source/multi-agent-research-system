@@ -1,6 +1,6 @@
 Multi-Agent Research System
 
-LIVE_DEMO = https://multi-agent-research-system-mabs61117-ai-enginner.vercel.app
+LIVE_DEMO =[ https://multi-agent-research-system-mabs61117-ai-enginner.vercel.app](https://multi-agent-research-system-black.vercel.app/)
 
 
 # graph.py — how it works
