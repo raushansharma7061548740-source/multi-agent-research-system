@@ -22,6 +22,10 @@ That last part is the piece I'm most happy with — the system grades its
 own output and fixes it, up to 3 times, before giving up and returning
 whatever it's got.
 
+The part I liked most: using two different models for writing vs. judging, so the same model isn't grading its own homework.and also if your topic is not about research then llm decide itself and send it to the general query and then llm give answer directly it does not need to call the tavily api and all.it give answer directly with own knowledge.
+
+it make  fast call if your topic is not too strong for research
+
 ## The flow
 
 First step is always classify — a model reads the question and decides:
